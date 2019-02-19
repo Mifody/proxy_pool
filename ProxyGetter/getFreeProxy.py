@@ -14,6 +14,8 @@
 import re
 import sys
 import requests
+import urllib3
+
 
 sys.path.append('..')
 
@@ -21,7 +23,8 @@ from Util.WebRequest import WebRequest
 from Util.utilFunction import getHtmlTree
 
 # for debug to disable insecureWarning
-requests.packages.urllib3.disable_warnings()
+urllib3.disable_warnings()
+# requests.packages.urllib3.disable_warnings()
 
 
 class GetFreeProxy(object):
@@ -286,7 +289,7 @@ class GetFreeProxy(object):
 
 
 if __name__ == '__main__':
-    from CheckProxy import CheckProxy
+    from .CheckProxy import CheckProxy
 
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyFirst)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxySecond)

@@ -28,21 +28,21 @@ DATABASES = {
 
 PROXY_GETTER = [
     "freeProxyFirst",
-    "freeProxySecond",
-    # "freeProxyThird",  # 网站已不能访问
-    "freeProxyFourth",
+    # "freeProxySecond",    # remove ""
+    # "freeProxyThird",     # remove
+    # "freeProxyFourth",    # remove
     "freeProxyFifth",
-    # "freeProxySixth"   # 不再提供免费代理
+    # "freeProxySixth",     # disabled
     "freeProxySeventh",
-    # "freeProxyEight",
-    # "freeProxyNinth",
-    "freeProxyTen",
+    # "freeProxyEight",     # remove
+    # "freeProxyNinth",     # remove
+    "freeProxyTen",         # add pagination
     "freeProxyEleven",
     "freeProxyTwelve",
     # foreign website, outside the wall
-    # "freeProxyWallFirst",
-    # "freeProxyWallSecond",
-    # "freeProxyWallThird"
+    "freeProxyWallFirst",
+    "freeProxyWallSecond",
+    "freeProxyWallThird"
 ]
 
 
