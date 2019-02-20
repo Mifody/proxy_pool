@@ -27,6 +27,8 @@ DATABASES = {
 # register the proxy getter function
 
 PROXY_GETTER = [
+    "freeNordVPN",
+    "freeProxyList",
     "freeProxyFirst",
     # "freeProxySecond",    # remove ""
     # "freeProxyThird",     # remove

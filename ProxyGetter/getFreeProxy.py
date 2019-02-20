@@ -16,7 +16,6 @@ import sys
 import requests
 import urllib3
 
-
 sys.path.append('..')
 
 from Util.WebRequest import WebRequest
@@ -24,6 +23,8 @@ from Util.utilFunction import getHtmlTree
 
 # for debug to disable insecureWarning
 urllib3.disable_warnings()
+
+
 # requests.packages.urllib3.disable_warnings()
 
 
@@ -65,7 +66,7 @@ class GetFreeProxy(object):
             "http://www.66ip.cn/mo.php?sxb=&tqsl={count}&port=&export=&ktip=&sxa=&submit=%CC%E1++%C8%A1&textarea=",
             "http://www.66ip.cn/nmtq.php?getnum={count}"
             "&isp=0&anonymoustype=0&start=&ports=&export=&ipaddress=&area=1&proxytype=2&api=66ip",
-            ]
+        ]
         request = WebRequest()
         for _ in urls:
             url = _.format(count=count)
@@ -287,9 +288,42 @@ class GetFreeProxy(object):
             for proxy in proxies:
                 yield ':'.join(proxy)
 
+    @staticmethod
+    def freeNordVPN():
+        """
+        nordvpn.com
+        :return:
+        """
+        url = 'https://nordvpn.com/wp-admin/admin-ajax.php?searchParameters%5B0%5D%5Bname%5D=proxy-country&searchParameters%5B0%5D%5Bvalue%5D=&searchParameters%5B1%5D%5Bname%5D=proxy-ports&searchParameters%5B1%5D%5Bvalue%5D=&searchParameters%5B3%5D%5Bname%5D=https&searchParameters%5B3%5D%5Bvalue%5D=on&limit=50000&action=getProxies&offset=0'
+        request = WebRequest()
+        try:
+            res = request.get(url, timeout=10).json()
+            for row in res:
+                yield '{}:{}'.format(row['ip'], row['port'])
+        except Exception as e:
+            pass
+
+    @staticmethod
+    def freeProxyList():
+        """
+        nordvpn.com
+        :return:
+        """
+        url = 'https://free-proxy-list.net/'
+        tree = getHtmlTree(url)
+        proxy_list = tree.xpath('//table[@id="proxylisttable"]/tbody/tr')
+        for tr in proxy_list[1:]:
+            yield ':'.join(tr.xpath('./td/text()')[0:2])
+        request = WebRequest()
+        try:
+            res = request.get(url, timeout=10).json()
+            for row in res:
+                yield '{}:{}'.format(row['ip'], row['port'])
+        except Exception as e:
+            pass
 
 if __name__ == '__main__':
-    from .CheckProxy import CheckProxy
+    from CheckProxy import CheckProxy
 
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyFirst)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxySecond)
@@ -301,7 +335,10 @@ if __name__ == '__main__':
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyEight)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyNinth)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyTen)
-    CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyEleven)
+    # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyEleven)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyTwelve)
+    # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeNordVPN)
+    # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyList)
+    # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeGatherproxy)
 
     # CheckProxy.checkAllGetProxyFunc()
