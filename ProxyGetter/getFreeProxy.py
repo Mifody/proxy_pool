@@ -15,6 +15,7 @@ import re
 import sys
 import requests
 import urllib3
+import datetime
 
 sys.path.append('..')
 
@@ -322,6 +323,21 @@ class GetFreeProxy(object):
         except Exception as e:
             pass
 
+
+    @staticmethod
+    def getCheckerproxy():
+        str = datetime.datetime.today().strftime('%Y-%m-%d')
+        url = 'https://checkerproxy.net/api/archive/{}'.format(str)
+        request = WebRequest()
+        try:
+            res = request.get(url, timeout=10).json()
+            for row in res:
+                if row['type'] == 2 and row['kind'] == 2:
+                    yield row['addr']
+        except Exception as e:
+            pass
+
+
 if __name__ == '__main__':
     from CheckProxy import CheckProxy
 
@@ -340,5 +356,6 @@ if __name__ == '__main__':
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeNordVPN)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeProxyList)
     # CheckProxy.checkGetProxyFunc(GetFreeProxy.freeGatherproxy)
+    # CheckProxy.checkGetProxyFunc(GetFreeProxy.getCheckerproxy)
 
     # CheckProxy.checkAllGetProxyFunc()
