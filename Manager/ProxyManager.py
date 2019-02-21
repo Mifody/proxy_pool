@@ -21,6 +21,7 @@ from Config.ConfigGetter import config
 from Util.LogHandler import LogHandler
 from Util.utilFunction import verifyProxyFormat
 from ProxyGetter.getFreeProxy import GetFreeProxy
+from random import shuffle
 
 
 class ProxyManager(object):
@@ -90,6 +91,19 @@ class ProxyManager(object):
         if EnvUtil.PY3:
             return list(item_dict.keys()) if item_dict else list()
         return item_dict.keys() if item_dict else list()
+
+    def getRaw(self):
+        """
+        get all proxy from pool as list
+        :return:
+        """
+        self.db.changeTable(self.useful_proxy_queue)
+        item_dict = self.db.getAll()
+        if EnvUtil.PY3:
+            items = list(item_dict.keys()) if item_dict else list()
+        else:
+            items = item_dict.keys() if item_dict else list()
+        return '\n'.join(items)
 
     def getNumber(self):
         self.db.changeTable(self.raw_proxy_queue)

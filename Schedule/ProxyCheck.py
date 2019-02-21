@@ -25,6 +25,8 @@ FAIL_COUNT = 1  # 校验失败次数， 超过次数删除代理
 
 
 class ProxyCheck(ProxyManager, Thread):
+    local_ip = ''
+
     def __init__(self, queue, item_dict):
         ProxyManager.__init__(self)
         Thread.__init__(self)

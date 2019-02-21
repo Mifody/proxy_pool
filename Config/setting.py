@@ -27,6 +27,7 @@ DATABASES = {
 # register the proxy getter function
 
 PROXY_GETTER = [
+    "getCheckerproxy",
     "freeNordVPN",
     "freeProxyList",
     "freeProxyFirst",
@@ -54,3 +55,8 @@ SERVER_API = {
     "HOST": "0.0.0.0",  # The ip specified which starting the web API
     "PORT": 5010  # port number to which the server listens to
 }
+
+LOCAL_IP = {
+    'local_ip': ''
+}
+

@@ -69,6 +69,11 @@ def getAll():
     proxies = ProxyManager().getAll()
     return proxies
 
+@app.route('/get_raw/')
+def getRaw():
+    proxies = ProxyManager().getRaw()
+    return proxies
+
 
 @app.route('/delete/', methods=['GET'])
 def delete():

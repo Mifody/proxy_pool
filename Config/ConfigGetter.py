@@ -14,6 +14,7 @@ __author__ = 'JHao'
 
 
 from Util.utilClass import LazyProperty
+from Util.utilFunction import gelLocalIp
 from Config.setting import *
 
 
@@ -56,7 +57,6 @@ class ConfigGetter(object):
     @LazyProperty
     def host_port(self):
         return SERVER_API.get("PORT", 5010)
-
 
 config = ConfigGetter()
 

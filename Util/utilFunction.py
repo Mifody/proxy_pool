@@ -20,6 +20,7 @@ from Util.WebRequest import WebRequest
 
 # logger = LogHandler(__name__, stream=False)
 
+local_ip = ''
 
 # noinspection PyPep8Naming
 def robustCrawl(func):
@@ -87,6 +88,21 @@ def tcpConnect(proxy):
     return True if result == 0 else False
 
 
+def gelLocalIp():
+    try:
+        # 超过20秒的代理就不要了
+        global local_ip
+        if local_ip:
+            return local_ip
+        else:
+            r = requests.get('http://httpbin.org/ip', imeout=10, verify=False)
+            local_ip =  r.json().get("origin").split(', ')[0]
+            return local_ip
+    except Exception as e:
+        # logger.error(str(e))
+        return False
+
+
 # noinspection PyPep8Naming
 def validUsefulProxy(proxy):
     """
@@ -94,15 +110,20 @@ def validUsefulProxy(proxy):
     :param proxy:
     :return:
     """
+    global local_ip
+    if not local_ip:
+        r = requests.get('http://httpbin.org/ip', timeout=10, verify=False)
+        local_ip = r.json().get("origin").split(', ')[0]
     if isinstance(proxy, bytes):
         proxy = proxy.decode('utf8')
     proxies = {"http": "http://{proxy}".format(proxy=proxy)}
     try:
         # 超过20秒的代理就不要了
         r = requests.get('http://httpbin.org/ip', proxies=proxies, timeout=10, verify=False)
-        if r.status_code == 200 and r.json().get("origin"):
+        if r.status_code == 200 and r.json().get("origin").split(', ')[0] != local_ip:
             # logger.info('%s is ok' % proxy)
             return True
     except Exception as e:
         # logger.error(str(e))
         return False
+
